@@ -1,51 +1,76 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 
-int main()
+class Solution
 {
-    queue<pair<int, int>> q;
-    int island = 0;
-    vector<vector<string>> grid = {
-        {"0", "1", "0"},
-        {"1", "1", "1"},
-        {"0", "1", "0"}};
-    vector<pair<int, int>> poss = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    for (int r = 0; r < grid.size(); r++)
+public:
+    int numIslands(vector<vector<char>> &grid)
     {
-        for (int c = 0; c < grid[0].size(); c++)
+        queue<pair<int, int>> q;
+        int step = 0;
+        int island = 0;
+        vector<pair<int, int>> poss = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        for (int r = 0; r < grid.size(); r++)
         {
-            if (grid[r][c] == "1")
+            for (int c = 0; c < grid[0].size(); c++)
             {
-                q.push(make_pair(r, c));
-                grid[0][0] = "0";
-                while (!q.empty())
+                if (grid[r][c] == '1')
                 {
-                    int size = q.size();
-                    for (int i = 0; i < size; ++i)
+                    q.push(make_pair(r, c));
+                    grid[0][0] = '0';
+                    while (!q.empty())
                     {
-                        pair<int, int> cur = q.front();
-                        for (auto p : poss)
+                        // iterate the nodes which are already in the queue
+                        int size = q.size();
+                        for (int i = 0; i < size; ++i)
                         {
-                            int newr = q.front().first + p.first;
-                            int newc = q.front().second + p.second;
-                            if (0 > newr || newc < 0 || newc >= grid[0].size() || newr >= grid.size())
+                            pair<int, int> cur = q.front();
+                            for (auto p : poss)
                             {
-                                continue;
+                                int newr = q.front().first + p.first;
+                                int newc = q.front().second + p.second;
+                                if (0 > newr || newc < 0 || newc >= grid[0].size() || newr >= grid.size())
+                                {
+                                    continue;
+                                }
+                                pair<int, int> newcur = make_pair(newr, newc);
+                                if (grid[newr][newc] == '1')
+                                {
+                                    q.push(newcur);
+                                    grid[newr][newc] = '0';
+                                }
                             }
-                            pair<int, int> newcur = make_pair(newr, newc);
-                            if (grid[newr][newc] == "1")
-                            {
-                                q.push(newcur);
-                                grid[newr][newc] = "0";
-                            }
+                            q.pop();
                         }
-                        q.pop();
                     }
+                    island++;
                 }
-                island++;
             }
         }
+        return island;
     }
-    cout << island;
+};
+
+int main()
+{
+    Solution mysol = Solution();
+    //test case 1:
+    // Input:
+    //     grid = [
+    //         [ "1", "1", "1", "1", "0" ],
+    //         [ "1", "1", "0", "1", "0" ],
+    //         [ "1", "1", "0", "0", "0" ],
+    //         [ "0", "0", "0", "0", "0" ]
+    //     ] Output : 1
+
+    vector<vector<char>> grid = {
+                { '1', '1', '1', '1', '0' },
+                { '1', '1', '0', '1', '0' },
+                { '1', '1', '0', '0', '0' },
+                { '0', '0', '0', '0', '0' }
+};
+    int ans = mysol.numIslands(grid);
+    cout << ans;
 }
