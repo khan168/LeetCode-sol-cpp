@@ -2,6 +2,7 @@
 using namespace std;
 typedef long long ll;
 
+//approach 1
 class Solution
 {
 public:
@@ -18,5 +19,21 @@ public:
             word2[i - 'a'] += 1;
         }
         return word1 == word2;
+    }
+};
+
+//approach 2 -> Sorting
+class Solution
+{
+public:
+    bool isAnagram(string s, string t)
+    {
+        if (s.size() != t.size())
+            return false;
+
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+
+        return s == t;
     }
 };
