@@ -1,3 +1,4 @@
+//1 using sets 
 class Solution
 {
 public:
@@ -23,5 +24,14 @@ public:
             }
         }
         return false;
+    }
+};
+
+//using sets but smaller implementation
+//2
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        return nums.size() > set<int>(nums.begin(),nums.end()).size();
     }
 };
