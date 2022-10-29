@@ -2,6 +2,34 @@
 using namespace std;
 typedef long long ll;
 
+
+//approach : sorting to get common key for each anagram and storing that key with a vector<string>.
+class Solution
+{
+public:
+    vector<vector<string>> groupAnagrams(vector<string> &strs)
+    {
+        if (strs.size() == 1)
+        {
+            return {{strs[0]}};
+        }
+        vector<vector<string>> ans;
+        unordered_map<string, vector<string>> m;
+        for (int i = 0; i < strs.size(); i++)
+        {
+            string s = strs[i];
+            sort(s.begin(), s.end());
+            m[s].push_back(strs[i]);
+        }
+        for (auto j : m)
+        {
+            ans.push_back(j.second);
+        }
+        cout << 1;
+        return ans;
+    }
+};
+
 //run time but works for 107/111 cases
 class Solution
 {
