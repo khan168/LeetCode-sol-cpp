@@ -40,3 +40,50 @@ public:
         return ans;
     }
 };
+
+//approach 2:
+//using max heap 
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<pair<int,int>> v;
+        vector<int> ans;
+        unordered_map<int,int> m;
+        for(int i=0;i<nums.size();i++){
+            m[nums[i]]++;
+        }
+        priority_queue<pair<int,int>> pq;
+        for(auto i:m){ pq.push({i.second,i.first});}
+        while(k--){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        return ans;
+    }
+};
+
+//bucket sort solution 
+// O(N) space and time complexity
+class Solution {
+public:
+    
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<vector<int>> bkt(nums.size()+1);
+        vector<int> ans;
+        unordered_map<int,int> m;
+        for(int i=0;i<nums.size();i++){
+            m[nums[i]]++;
+        }
+        for(auto [a,b]:m){
+            bkt[b].push_back(a);
+        }
+        for(int i=nums.size();k>0;i--){
+            for(auto j:bkt[i]){
+                ans.push_back(j);
+                k--;
+            }
+        }
+        
+        return ans;
+    }
+};
